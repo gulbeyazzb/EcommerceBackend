@@ -1,9 +1,11 @@
 package com.workintech.ecommerce.ecommerce.converter;
 
 import com.workintech.ecommerce.ecommerce.dto.response.CategoryResponse;
+import com.workintech.ecommerce.ecommerce.dto.response.ProductResponse;
 import com.workintech.ecommerce.ecommerce.dto.response.RoleResponse;
 import com.workintech.ecommerce.ecommerce.dto.response.UserResponse;
 import com.workintech.ecommerce.ecommerce.entity.Category;
+import com.workintech.ecommerce.ecommerce.entity.Products;
 import com.workintech.ecommerce.ecommerce.entity.Role;
 import com.workintech.ecommerce.ecommerce.entity.User;
 
@@ -47,6 +49,22 @@ public class Converter {
     public static CategoryResponse findCategory(Category category){
         return new CategoryResponse(category.getId(),category.getCode(),
                 category.getTitle(), category.getImg(), category.getRating(),category.getGender());
+    }
+
+    public static List<ProductResponse> findProducts(List<Products> products){
+        List<ProductResponse> productResponses = new ArrayList<>();
+
+        for(Products product: products){
+            productResponses.add(new ProductResponse(product.getId(), product.getName(),
+                    product.getDescription(), product.getPrice(), product.getStock(),
+                    product.getCategoryId(), product.getRating(), product.getSellCount(), product.getImage()));
+        }
+        return productResponses;
+    }
+    public static ProductResponse findProduct(Products product){
+        return new ProductResponse(product.getId(), product.getName(),
+                product.getDescription(), product.getPrice(), product.getStock(),
+                product.getCategoryId(), product.getRating(), product.getSellCount(), product.getImage());
     }
 
 }

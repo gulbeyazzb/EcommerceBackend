@@ -36,15 +36,5 @@ public class Category {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Product> products;  //don't return
-
-    public void addProduct(Product product){
-        if(products == null){
-            products = new ArrayList<>();
-        }
-        products.add(product);
-    }
-
 
 }

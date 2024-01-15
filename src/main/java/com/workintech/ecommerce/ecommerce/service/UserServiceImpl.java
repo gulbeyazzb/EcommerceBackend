@@ -2,12 +2,9 @@ package com.workintech.ecommerce.ecommerce.service;
 
 import com.workintech.ecommerce.ecommerce.converter.Converter;
 import com.workintech.ecommerce.ecommerce.dto.response.UserResponse;
-import com.workintech.ecommerce.ecommerce.entity.Address;
-import com.workintech.ecommerce.ecommerce.entity.BillingAddress;
 import com.workintech.ecommerce.ecommerce.entity.User;
 import com.workintech.ecommerce.ecommerce.exception.CommerceException;
 import com.workintech.ecommerce.ecommerce.repository.UserRepository;
-import com.workintech.ecommerce.ecommerce.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -52,8 +49,7 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 
     @Override
     public UserResponse saveUser(User user) {
-        Validation.checkString(user.getName(),"Name", 50);
-        Validation.checkString(user.getEmail(),"Email", 100);
+
         return Converter.findUser(userRepository.save(user));
     }
 

@@ -26,11 +26,12 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public Category getCategoryByID(long id) {
-        Optional<Category> categoryOptional = categoryRepository.findById(id);
-        if(categoryOptional.isPresent()){
-            return categoryOptional.get();
-        }
-        throw new CommerceException("Category not found!", HttpStatus.NOT_FOUND);
+       try{
+           Category foundCategory= categoryRepository.getCategoryByID(id);
+           return foundCategory;
+       }catch(CommerceException ex){
+           throw new CommerceException("Category not found!", HttpStatus.NOT_FOUND);
+       }
     }
 
     @Override

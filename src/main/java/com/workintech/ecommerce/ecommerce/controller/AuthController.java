@@ -24,7 +24,7 @@ public class AuthController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/signup/")
     public UserResponse register(@RequestBody UserRequest userRequest){
        User user=authenticationService
                 .register(userRequest.name(), userRequest.email(),
