@@ -10,7 +10,7 @@ public interface ProductService {
     Products saveProduct(Products product);
     List<ProductResponse> saveAll(List<Products> productsList);
     ProductResponse findByProductName(String name);
-    List<ProductResponse> getProductsByCategoryId(int categoryID);
+    List<Products> getProductsByCategoryId(long categoryID);
     List<ProductResponse> searchByName(String name);
     List<ProductResponse> highestToLowestSorting();
     List<ProductResponse> lowestToHighestSorting();
@@ -20,8 +20,16 @@ public interface ProductService {
     List<ProductResponse> searchAndHighestSorting(String name);
     List<ProductResponse> searchAndWorstSorting(String name);
     List<ProductResponse> searchAndBestSorting(String name);
-    List<ProductResponse> getAllProducts();
-    Products getProductByID(long id);
+    List<Products> getAllProducts();
     Products deleteProduct(long id);
-
+    Products getProductById(long id);
+    List<Products> searchByNameAndCategory(String name,long categoryID);
+    List<Products> searchAndWorstSortAndCategory(long categoryID,String name);
+    List<Products> searchAndBestSortAndCategory(long categoryID,String name);
+    List<Products> searchAndAscSortAndCategory(long categoryID,String name);
+    List<Products> searchAndDescSortAndCategory(long categoryID,String name);
+    List<Products> highestToLowestSortingAndCategory(long categoryID);
+    List<Products> lowestToHighestSortingAndCategory(long categoryID);
+    List<Products> worstToBestSortingAndCategory(long categoryID);
+    List<Products> bestToWorstSortingAndCategory(long categoryID);
 }

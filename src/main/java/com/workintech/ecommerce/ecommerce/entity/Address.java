@@ -27,7 +27,7 @@ public class Address {
     private String surname;
 
     @Column(name = "phone")
-    private long phone;
+    private String phone;
 
     @Column(name = "city")
     private String city;

@@ -67,7 +67,7 @@ public class SecurityConfig {
                     auth.requestMatchers("/admin/**").hasAuthority("admin");
 
                     auth.requestMatchers("/swagger-ui/**").permitAll();
-                    //TODO Failed to load remote configuration
+
                     auth.anyRequest().authenticated();
                 })
 

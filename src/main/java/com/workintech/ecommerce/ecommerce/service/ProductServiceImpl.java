@@ -6,11 +6,14 @@ import com.workintech.ecommerce.ecommerce.entity.Products;
 import com.workintech.ecommerce.ecommerce.exception.CommerceException;
 import com.workintech.ecommerce.ecommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -46,8 +49,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponse> getProductsByCategoryId(int categoryID) {
-        return Converter.findProducts(productRepository.getProductsByCategoryId(categoryID));
+    public List<Products> getProductsByCategoryId(long categoryID) {
+        return productRepository.getProductsByCategoryId(categoryID);
     }
 
     @Override
@@ -92,30 +95,81 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductResponse> searchAndBestSorting(String name) {
-        return null;
+        return Converter.findProducts(productRepository.searchAndBestSorting(name));
     }
 
     @Override
-    public List<ProductResponse> getAllProducts() {
-        return Converter.findProducts(productRepository.findAll());
-    }
-
-    @Override
-    public Products getProductByID(long id) {
-        Optional<Products> productOptional = productRepository.findById(id);
-        if(productOptional.isPresent()){
-            return productOptional.get();
-        }
-        throw new CommerceException("The product is not found!", HttpStatus.NOT_FOUND);
+    public List<Products> getAllProducts() {
+        return productRepository.findAll();
     }
 
     @Override
     public Products deleteProduct(long id) {
-        Products product = getProductByID(id);
-        if(product != null){
-            productRepository.deleteById(id);
-            return product;
+        Products deletedProduct=new Products();
+      Optional<Products> product = productRepository.findById(id);
+        if(product.isPresent()){
+            deletedProduct=product.get();
+            productRepository.delete(deletedProduct);
+            return deletedProduct;
         }
         throw new CommerceException("The product is not found!", HttpStatus.NOT_FOUND);
     }
+
+    @Override
+    public Products getProductById(long id) {
+        Products product=new Products();
+        Optional<Products> optionalProduct= productRepository.findById(id);
+        if(optionalProduct.isPresent()){
+          product= optionalProduct.get();
+        }
+        return product;
+    }
+
+    @Override
+    public List<Products> searchByNameAndCategory(String name, long categoryID) {
+        return productRepository.searchByNameAndCategory(name,categoryID);
+    }
+
+    @Override
+    public List<Products> searchAndWorstSortAndCategory(long categoryID, String name) {
+        return productRepository.searchAndWorstSortAndCategory(categoryID,name);
+    }
+
+    @Override
+    public List<Products> searchAndBestSortAndCategory(long categoryID, String name) {
+        return productRepository.searchAndBestSortAndCategory(categoryID,name);
+    }
+
+    @Override
+    public List<Products> searchAndAscSortAndCategory(long categoryID, String name) {
+        return searchAndAscSortAndCategory(categoryID, name);
+    }
+
+    @Override
+    public List<Products> searchAndDescSortAndCategory(long categoryID, String name) {
+        return productRepository.searchAndDescSortAndCategory(categoryID, name);
+    }
+
+    @Override
+    public List<Products> highestToLowestSortingAndCategory(long categoryID) {
+        return productRepository.highestToLowestSortingAndCategory(categoryID);
+    }
+
+    @Override
+    public List<Products> lowestToHighestSortingAndCategory(long categoryID) {
+        return productRepository.lowestToHighestSortingAndCategory(categoryID);
+    }
+
+    @Override
+    public List<Products> worstToBestSortingAndCategory(long categoryID) {
+        return productRepository.worstToBestSortingAndCategory(categoryID);
+    }
+
+    @Override
+    public List<Products> bestToWorstSortingAndCategory(long categoryID) {
+        return productRepository.bestToWorstSortingAndCategory(categoryID);
+    }
+
+
+
 }

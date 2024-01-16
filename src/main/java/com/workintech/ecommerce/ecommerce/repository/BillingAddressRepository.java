@@ -8,6 +8,6 @@ import java.util.Optional;
 
 
 public interface BillingAddressRepository extends JpaRepository<BillingAddress, Long> {
-    @Query(value = "SELECT * FROM ecommerce.billing_address AS b WHERE b.id = :id",nativeQuery = true)
+    @Query(value = "SELECT * FROM ecommerceweb.billing_address AS b WHERE b.id = :id",nativeQuery = true)
     Optional<BillingAddress> findAddressByID(long id);
 }

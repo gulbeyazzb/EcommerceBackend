@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
-    @Query(value = "SELECT * FROM ecommerce.address AS a WHERE a.id = :id",nativeQuery = true)
+    @Query(value = "SELECT * FROM ecommerceweb.address AS a WHERE a.id = :id",nativeQuery = true)
     Optional<Address> findAddressByID(long id);
 }
