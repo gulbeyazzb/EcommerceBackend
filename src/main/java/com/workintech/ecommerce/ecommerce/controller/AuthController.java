@@ -27,7 +27,7 @@ public class AuthController {
     @PostMapping("/signup/")
     public UserResponse register(@RequestBody UserRequest userRequest){
        User user=authenticationService
-                .register(userRequest.name(), userRequest.email(),
+                .signup(userRequest.name(), userRequest.email(),
                         userRequest.password(), userRequest.role());
        return Converter.findUser(user);
     }

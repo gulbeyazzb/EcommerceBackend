@@ -43,22 +43,11 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Address> addresses;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "billing_address")
-    private List<BillingAddress> billingAddresses;
-
     public void addAddress(Address address){
         if(addresses == null){
             addresses = new ArrayList<>();
         }
         addresses.add(address);
-    }
-
-    public void addBillingAddress(BillingAddress address){
-        if(billingAddresses == null){
-            billingAddresses = new ArrayList<>();
-        }
-        billingAddresses.add(address);
     }
 
     @Override

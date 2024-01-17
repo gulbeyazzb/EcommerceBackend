@@ -8,6 +8,7 @@ import com.workintech.ecommerce.ecommerce.entity.User;
 import com.workintech.ecommerce.ecommerce.exception.CommerceException;
 import com.workintech.ecommerce.ecommerce.repository.RoleRepository;
 import com.workintech.ecommerce.ecommerce.repository.UserRepository;
+import com.workintech.ecommerce.ecommerce.util.validations.GeneralValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +32,7 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User register(String name, String email, String password, String role){
+    public User signup(String name, String email, String password, String role){
 
         String encodedPassword = passwordEncoder.encode(password);
         Role userRole = roleRepository.findByAuthority(role).get();
@@ -47,12 +48,13 @@ public class AuthenticationService {
     }
 
     public UserResponse login(LoginRequest loginRequest){
+        GeneralValidation.checkEmptyOrNull(loginRequest.email(),"email ");
+        GeneralValidation.checkEmptyOrNull(loginRequest.password(),"password ");
         Optional<User> optionalUser = userRepository.findUserByEmail(loginRequest.email());
         if(optionalUser.isPresent()){
             User user = optionalUser.get();
-            System.out.println(user.getPassword() + loginRequest.password());
-            boolean isPasswordSame = passwordEncoder.matches(loginRequest.password(),user.getPassword());
-            if(isPasswordSame){
+            boolean arePasswordsMatches = passwordEncoder.matches(loginRequest.password(),user.getPassword());
+            if(arePasswordsMatches){
                 return Converter.findUser(user);
             }
             throw new CommerceException("Invalid Credantials", HttpStatus.BAD_REQUEST);

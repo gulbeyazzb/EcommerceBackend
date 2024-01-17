@@ -5,6 +5,7 @@ import com.workintech.ecommerce.ecommerce.dto.response.UserResponse;
 import com.workintech.ecommerce.ecommerce.entity.User;
 import com.workintech.ecommerce.ecommerce.exception.CommerceException;
 import com.workintech.ecommerce.ecommerce.repository.UserRepository;
+import com.workintech.ecommerce.ecommerce.util.validations.GeneralValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserDetailsService, UserService{
+public class UserServiceImpl implements UserDetailsService, UserService {
 
     private UserRepository userRepository;
 
@@ -27,19 +28,19 @@ public class UserServiceImpl implements UserDetailsService, UserService{
 
     @Override
     public void findUserByEmail(String email) {
-        boolean userExist = userRepository.findUserByEmail(email).isPresent(); //mevcut mu?
-        if(userExist){
-            throw new CommerceException("Email already taken.", HttpStatus.BAD_REQUEST);
+        boolean userExist = userRepository.findUserByEmail(email).isPresent();
+        if (userExist) {
+            throw new CommerceException(GeneralValidation.IS_EMAIL_PRESENT, HttpStatus.BAD_REQUEST);
         }
     }
 
     @Override
     public User findUserByID(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isPresent()){
+        if (optionalUser.isPresent()) {
             return optionalUser.get();
         }
-        throw new CommerceException("User not found!", HttpStatus.NOT_FOUND);
+        throw new CommerceException(GeneralValidation.IS_USER_PRESENT, HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -50,22 +51,24 @@ public class UserServiceImpl implements UserDetailsService, UserService{
     @Override
     public UserResponse saveUser(User user) {
 
+        GeneralValidation.checkEmptyOrNull(user.getName(), "name");
+        GeneralValidation.checkEmptyOrNull(user.getEmail(), "email");
+        GeneralValidation.checkEmptyOrNull(user.getPassword(), "password");
         return Converter.findUser(userRepository.save(user));
     }
 
     @Override
     public User deleteUser(long id) {
         User user = findUserByID(id);
-        if(user == null){
-            throw new CommerceException("User not found!", HttpStatus.NOT_FOUND);
-        }
+        GeneralValidation.IsUserPresent(user);
         userRepository.delete(user);
         return user;
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findUserByEmail(username).orElseThrow(() ->
-                new UsernameNotFoundException("User not valid!"));
+                new UsernameNotFoundException(GeneralValidation.IS_USER_VALID));
     }
 }

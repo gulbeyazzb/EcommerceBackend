@@ -1,10 +1,7 @@
 package com.workintech.ecommerce.ecommerce.service;
 
 import com.workintech.ecommerce.ecommerce.dto.response.UserResponse;
-import com.workintech.ecommerce.ecommerce.entity.Address;
-import com.workintech.ecommerce.ecommerce.entity.BillingAddress;
 import com.workintech.ecommerce.ecommerce.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 

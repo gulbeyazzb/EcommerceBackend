@@ -64,8 +64,6 @@ public class SecurityConfig {
 
                     auth.requestMatchers("/v1/products/**").permitAll();
 
-                    auth.requestMatchers("/admin/**").hasAuthority("admin");
-
                     auth.requestMatchers("/swagger-ui/**").permitAll();
 
                     auth.anyRequest().authenticated();

@@ -5,6 +5,7 @@ import com.workintech.ecommerce.ecommerce.dto.response.CategoryResponse;
 import com.workintech.ecommerce.ecommerce.entity.Category;
 import com.workintech.ecommerce.ecommerce.exception.CommerceException;
 import com.workintech.ecommerce.ecommerce.repository.CategoryRepository;
+import com.workintech.ecommerce.ecommerce.util.validations.GeneralValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public Category getCategoryByID(long id) {
+        GeneralValidation.isValid(id,"category id ");
+        GeneralValidation.isCategoryIdValid("category id ",id);
        try{
            Category foundCategory= categoryRepository.getCategoryByID(id);
            return foundCategory;
@@ -36,6 +39,10 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public CategoryResponse save(Category category) {
+        GeneralValidation.checkEmptyOrNull(category.getCode(),"code ");
+        GeneralValidation.checkEmptyOrNull(category.getImg(),"img ");
+        GeneralValidation.checkEmptyOrNull(category.getTitle(),"title ");
+        GeneralValidation.isValid(category.getRating(),"rating ");
         Category saved = categoryRepository.save(category);
         return new CategoryResponse(category.getId(), category.getCode(), category.getTitle(),
                 category.getImg(), category.getRating(), category.getGender());
