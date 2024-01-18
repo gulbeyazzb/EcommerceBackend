@@ -1,6 +1,7 @@
 package com.workintech.ecommerce.ecommerce.controller;
 
 import com.workintech.ecommerce.ecommerce.entity.Address;
+import com.workintech.ecommerce.ecommerce.entity.User;
 import com.workintech.ecommerce.ecommerce.service.AddressService;
 import com.workintech.ecommerce.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ public class UserController {
     }
 
     @PostMapping("/address")
-    public String saveAddress(@RequestBody Address address){
+    public String saveAddress(@RequestBody Address address, User user){
+       address.setUser(user);
         return addressService.saveAddress(address);
     }
 
