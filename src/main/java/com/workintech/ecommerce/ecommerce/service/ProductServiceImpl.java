@@ -129,7 +129,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.delete(deletedProduct);
             return deletedProduct;
         }
-        throw new CommerceException("The product is not found!", HttpStatus.NOT_FOUND);
+        throw new CommerceException(GeneralValidation.IS_NOT_PRODUCT_PRESENT, HttpStatus.NOT_FOUND);
     }
 
     @Override

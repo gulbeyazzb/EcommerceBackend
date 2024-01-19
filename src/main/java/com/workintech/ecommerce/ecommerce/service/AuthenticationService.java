@@ -32,29 +32,33 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User signup(String name, String email, String password, String role){
-
+    public User signup(String name, String email, String password, String role) {
+        Role userRole = new Role();
         String encodedPassword = passwordEncoder.encode(password);
-        Role userRole = roleRepository.findByAuthority(role).get();
+        Optional<Role> optionalRole = roleRepository.findByAuthority(role);
+        if (optionalRole.isPresent()) {
+            userRole = optionalRole.get();
+            User user = new User();
+            user.setName(name);
+            user.setEmail(email);
+            user.setPassword(encodedPassword);
+            user.setRole(userRole);
+            userRepository.save(user);
+            return user;
 
-        User user = new User();
-        user.setName(name);
-        user.setEmail(email);
-        user.setPassword(encodedPassword);
-        user.setRole(userRole);
-        userRepository.save(user);
-
-        return user;
+        } else {
+            throw new CommerceException("Role mustn't be empty", HttpStatus.BAD_REQUEST);
+        }
     }
 
-    public UserResponse login(LoginRequest loginRequest){
-        GeneralValidation.checkEmptyOrNull(loginRequest.email(),"email ");
-        GeneralValidation.checkEmptyOrNull(loginRequest.password(),"password ");
+    public UserResponse login(LoginRequest loginRequest) {
+        GeneralValidation.checkEmptyOrNull(loginRequest.email(), "email ");
+        GeneralValidation.checkEmptyOrNull(loginRequest.password(), "password ");
         Optional<User> optionalUser = userRepository.findUserByEmail(loginRequest.email());
-        if(optionalUser.isPresent()){
+        if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            boolean arePasswordsMatches = passwordEncoder.matches(loginRequest.password(),user.getPassword());
-            if(arePasswordsMatches){
+            boolean arePasswordsMatches = passwordEncoder.matches(loginRequest.password(), user.getPassword());
+            if (arePasswordsMatches) {
                 return Converter.findUser(user);
             }
             throw new CommerceException("Invalid Credantials", HttpStatus.BAD_REQUEST);

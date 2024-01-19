@@ -1,13 +1,7 @@
 package com.workintech.ecommerce.ecommerce.converter;
 
-import com.workintech.ecommerce.ecommerce.dto.response.CategoryResponse;
-import com.workintech.ecommerce.ecommerce.dto.response.ProductResponse;
-import com.workintech.ecommerce.ecommerce.dto.response.RoleResponse;
-import com.workintech.ecommerce.ecommerce.dto.response.UserResponse;
-import com.workintech.ecommerce.ecommerce.entity.Category;
-import com.workintech.ecommerce.ecommerce.entity.Products;
-import com.workintech.ecommerce.ecommerce.entity.Role;
-import com.workintech.ecommerce.ecommerce.entity.User;
+import com.workintech.ecommerce.ecommerce.dto.response.*;
+import com.workintech.ecommerce.ecommerce.entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +59,11 @@ public class Converter {
         return new ProductResponse(product.getId(), product.getName(),
                 product.getDescription(), product.getPrice(), product.getStock(),
                 product.getCategoryId(), product.getRating(), product.getSellCount(), product.getImage());
+    }
+
+    public static AddressResponse findAddress(Address address){
+        return new AddressResponse(address.getId(),address.getName(), address.getSurname(), address.getPhone(), address.getCity(),
+                address.getDistrict(), address.getNeighborhood(), address.getAddress());
     }
 
 }

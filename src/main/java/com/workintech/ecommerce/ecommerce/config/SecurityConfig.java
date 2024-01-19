@@ -40,7 +40,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:8888/**",
-                "http://localhost:3000/","http://localhost:3000/v1/products/"));
+                "http://localhost:3000/"));
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         corsConfiguration.setAllowedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -59,6 +59,10 @@ public class SecurityConfig {
                     auth.requestMatchers("/user/**").permitAll();
 
                     auth.requestMatchers("/roles**").permitAll();
+
+                    auth.requestMatchers("/card/**").permitAll();
+
+                    auth.requestMatchers("/address/**").permitAll();
 
                     auth.requestMatchers("/categories/**").permitAll();
 

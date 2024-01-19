@@ -22,8 +22,7 @@ public class UserController {
     }
 
     @PostMapping("/address")
-    public String saveAddress(@RequestBody Address address, User user){
-       address.setUser(user);
+    public String saveAddress(@RequestBody Address address){
         return addressService.saveAddress(address);
     }
 
