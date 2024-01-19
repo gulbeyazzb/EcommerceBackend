@@ -49,8 +49,8 @@ class AddressRepositoryTest {
         address.setUser(user);
 
         user.addAddress(address);
-        // addressRepository.save(address);
-        //userRepository.save(user);
+        addressRepository.save(address);
+       userRepository.save(user);
     }
 
     @Test
