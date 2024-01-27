@@ -48,10 +48,10 @@ public class ProductController {
             Products product = new Products();
             product.setName(node.get("name").asText());
             product.setDescription(node.get("description").asText());
-            product.setPrice(node.get("price").asDouble());
-            product.setStock(node.get("stock").asInt());
+            product.setPrice(node.get("price").asText());
+            product.setStock(node.get("stock").asText());
             product.setCategoryId(node.get("category_id").asLong());
-            product.setRating(node.get("rating").asDouble());
+            product.setRating(node.get("rating").asText());
             product.setImage(node.get("images").get(0).get("url").asText());
             productList.add(product);
         }

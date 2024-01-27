@@ -1,15 +1,15 @@
 package com.workintech.ecommerce.ecommerce.entity;
 
+import com.workintech.ecommerce.ecommerce.dto.response.cartResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "order", schema = "ecommerceweb")
@@ -17,7 +17,8 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "addres_id")
+
+    @Column(name = "address_id")
     private long addressId;
 
     @Column(name = "order_date")
@@ -36,12 +37,20 @@ public class Order {
     private String cardCvv;
 
     @Column(name = "price")
-    private double price;
+    private String price;
 
-    @Column(name = "userName")
+    @Column(name = "username")
     private String userName;
 
-    @Column(name = "products")
-    private List<String> products;
-//TODO create Orderedproducts entity,service,repo,controller. endpoint-> orderedProducts(completed on FE)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name = "order_product", schema = "ecommerceweb", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns =
+    @JoinColumn(name = "product_id"))
+    private List<Products> products;
+
+    public void addProduct(Products product) {
+        if (products == null) {
+            products = new ArrayList<>();
+        }
+        products.add(product);
+    }
 }

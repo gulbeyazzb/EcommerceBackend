@@ -35,11 +35,7 @@ public class ProductServiceImpl implements ProductService {
         GeneralValidation.checkEmptyOrNull(product.getName(),"name");
         GeneralValidation.checkEmptyOrNull(product.getDescription(),"description");
         GeneralValidation.checkEmptyOrNull(product.getImage(),"image");
-        GeneralValidation.isValid(product.getPrice(),"price");
-        GeneralValidation.isValid(product.getRating(),"rating");
-        GeneralValidation.isValid(product.getSellCount(),"sell count");
         GeneralValidation.isCategoryIdValid("category id", product.getCategoryId());
-        GeneralValidation.isValid(product.getStock(),"stock");
         return productRepository.save(product);
     }
 

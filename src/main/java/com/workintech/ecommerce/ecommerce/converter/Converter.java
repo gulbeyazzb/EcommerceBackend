@@ -3,7 +3,9 @@ package com.workintech.ecommerce.ecommerce.converter;
 import com.workintech.ecommerce.ecommerce.dto.response.*;
 import com.workintech.ecommerce.ecommerce.entity.*;
 
+import javax.swing.text.html.HTMLDocument;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Converter {
@@ -61,9 +63,28 @@ public class Converter {
                 product.getCategoryId(), product.getRating(), product.getSellCount(), product.getImage());
     }
 
+    public static ProductsResponseForOrder findProductByOrder(Products product){
+        return new ProductsResponseForOrder(product.getId(),product.getSellCount(), product.getDescription());
+    }
+
     public static AddressResponse findAddress(Address address){
         return new AddressResponse(address.getId(),address.getName(), address.getSurname(), address.getPhone(), address.getCity(),
                 address.getDistrict(), address.getNeighborhood(), address.getAddress());
+    }
+
+    public static OrderResponse findOrder(Order order){
+        List<ProductsResponseForOrder> responses=new ArrayList<>();
+
+     Iterator<Products> iteratorProduct=order.getProducts().iterator();
+
+        while(iteratorProduct.hasNext()){
+            new ProductsResponseForOrder(iteratorProduct.next().getId(),iteratorProduct.next().getSellCount()
+                    ,iteratorProduct.next().getDescription());
+        }
+
+        return new OrderResponse(order.getId(), order.getCardNumber(), order.getCardMonth(),
+                order.getCardYear(), order.getCardCvv(), order.getPrice(),
+                order.getAddressId(), order.getOrderDate(), order.getUserName(),responses);
     }
 
 }

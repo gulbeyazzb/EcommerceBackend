@@ -62,6 +62,8 @@ public class SecurityConfig {
 
                     auth.requestMatchers("/card/**").permitAll();
 
+                    auth.requestMatchers("/order/**").permitAll();
+
                     auth.requestMatchers("/address/**").permitAll();
 
                     auth.requestMatchers("/categories/**").permitAll();
