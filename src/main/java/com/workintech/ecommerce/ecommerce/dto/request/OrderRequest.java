@@ -1,8 +1,6 @@
-package com.workintech.ecommerce.ecommerce.dto.response;
+package com.workintech.ecommerce.ecommerce.dto.request;
 
-import com.workintech.ecommerce.ecommerce.dto.request.ProductRequest;
 import jakarta.persistence.Column;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,9 +8,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class OrderResponse{
-    private long id;
+public class OrderRequest {
 
     private long addressId;
 
@@ -31,4 +27,5 @@ public class OrderResponse{
     private String userName;
 
     private List<ProductRequest> products;
+
 }

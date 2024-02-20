@@ -42,15 +42,10 @@ public class Order {
     @Column(name = "username")
     private String userName;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "order_product", schema = "ecommerceweb", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns =
-    @JoinColumn(name = "product_id"))
+    @ManyToMany(cascade = { CascadeType.DETACH,CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name = "order_product", schema = "ecommerceweb", joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Products> products;
 
-    public void addProduct(Products product) {
-        if (products == null) {
-            products = new ArrayList<>();
-        }
-        products.add(product);
-    }
+
 }
